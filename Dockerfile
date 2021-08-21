@@ -1,10 +1,10 @@
-FROM node:alpine
+FROM node:8.12-alpine
+
+# Install Python
+RUN apk add g++ make python
 
 # Create work directory
 WORKDIR /usr/src/app
-
-# Install runtime dependencies
-RUN npm install yarn -g
 
 # Copy app source to work directory
 COPY . /usr/src/app

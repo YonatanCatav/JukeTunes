@@ -8,4 +8,6 @@ export class PlaylistInput implements Partial<Playlist> {
     @Field()
     public name: string;
 
+    @Field()
+    public description: string;
 }

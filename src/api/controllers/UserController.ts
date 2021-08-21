@@ -8,7 +8,7 @@ import { OpenAPI, ResponseSchema } from 'routing-controllers-openapi';
 import { UserNotFoundError } from '../errors/UserNotFoundError';
 import { User } from '../models/User';
 import { UserService } from '../services/UserService';
-import { PetResponse } from './PetController';
+import { PlaylistResponse } from './PlaylistController';
 
 class BaseUser {
     @IsNotEmpty()
@@ -30,8 +30,8 @@ export class UserResponse extends BaseUser {
     public id: string;
 
     @ValidateNested({ each: true })
-    @Type(() => PetResponse)
-    public pets: PetResponse[];
+    @Type(() => PlaylistResponse)
+    public playlists: PlaylistResponse[];
 }
 
 class CreateUserBody extends BaseUser {
@@ -96,5 +96,4 @@ export class UserController {
     public delete(@Param('id') id: string): Promise<void> {
         return this.userService.delete(id);
     }
-
 }

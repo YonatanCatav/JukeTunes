@@ -4,7 +4,7 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { User } from './User';
 
 @Entity()
-export class Pet {
+export class Playlist {
 
     @PrimaryColumn('uuid')
     public id: string;
@@ -13,9 +13,8 @@ export class Pet {
     @Column()
     public name: string;
 
-    @IsNotEmpty()
-    @Column()
-    public age: number;
+    @Column({nullable: true})
+    public description: string;
 
     @Column({
         name: 'user_id',
@@ -23,7 +22,7 @@ export class Pet {
     })
     public userId: string;
 
-    @ManyToOne(type => User, user => user.pets)
+    @ManyToOne(type => User, user => user.playlists)
     @JoinColumn({ name: 'user_id' })
     public user: User;
 

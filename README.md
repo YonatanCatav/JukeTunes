@@ -190,7 +190,7 @@ The swagger and the monitor route can be altered in the `.env` file.
 | **/swagger**   | This is the Swagger UI with our API documentation |
 | **/monitor**   | Shows a small monitor page for the server |
 | **/api/users** | Example entity endpoint |
-| **/api/pets**  | Example entity endpoint |
+| **/api/playlists**  | Example entity endpoint |
 
 ![divider](./w3tec-divider.png)
 
@@ -310,15 +310,15 @@ define(User, (faker: typeof Faker, settings: { roles: string[] }) => {
 Handle relation in the entity factory like this.
 
 ```typescript
-define(Pet, (faker: typeof Faker, settings: undefined) => {
+define(playlist, (faker: typeof Faker, settings: undefined) => {
     const gender = faker.random.number(1);
     const name = faker.name.firstName(gender);
 
-    const pet = new Pet();
-    pet.name = name;
-    pet.age = faker.random.number();
-    pet.user = factory(User)({ roles: ['admin'] })
-    return pet;
+    const playlist = new playlist();
+    playlist.name = name;
+    playlist.age = faker.random.number();
+    playlist.user = factory(User)({ roles: ['admin'] })
+    return playlist;
 });
 ```
 
@@ -344,9 +344,9 @@ the generated value before they get persisted.
 ...
 await factory(User)()
     .map(async (user: User) => {
-        const pets: Pet[] = await factory(Pet)().createMany(2);
-        const petIds = pets.map((pet: Pet) => pet.Id);
-        await user.pets().attach(petIds);
+        const playlists: playlist[] = await factory(playlist)().createMany(2);
+        const playlistIds = playlists.map((playlist: playlist) => playlist.Id);
+        await user.playlists().attach(playlistIds);
     })
     .createMany(5);
 ...
@@ -355,18 +355,18 @@ await factory(User)()
 To deal with relations you can use the entity manager like this.
 
 ```typescript
-export class CreatePets implements SeedsInterface {
+export class Createplaylists implements SeedsInterface {
 
     public async seed(factory: FactoryInterface, connection: Connection): Promise<any> {
         const connection = await factory.getConnection();
         const em = connection.createEntityManager();
 
         await times(10, async (n) => {
-            // This creates a pet in the database
-            const pet = await factory(Pet)().create();
+            // This creates a playlist in the database
+            const playlist = await factory(playlist)().create();
             // This only returns a entity with fake data
             const user = await factory(User)({ roles: ['admin'] }).make();
-            user.pets = [pet];
+            user.playlists = [playlist];
             await em.save(user);
         });
     }
@@ -387,7 +387,7 @@ yarn start db.seed
 | Command                                              | Description |
 | ---------------------------------------------------- | ----------- |
 | `yarn start "db.seed"`                               | Run all seeds |
-| `yarn start "db.seed --run CreateBruce,CreatePets"`  | Run specific seeds (file names without extension) |
+| `yarn start "db.seed --run CreateBruce,Createplaylists"`  | Run specific seeds (file names without extension) |
 | `yarn start "db.seed -L"`                            | Log database queries to the terminal |
 | `yarn start "db.seed --factories <path>"`            | Add a different path to your factories (Default: `src/database/`) |
 | `yarn start "db.seed --seeds <path>"`                | Add a different path to your seeds (Default: `src/database/seeds/`) |
@@ -413,14 +413,14 @@ export interface Context {
 
 For the usage of the DataLoaders we created a annotation, which automatically creates and registers a new DataLoader to the scoped container.
 
-Here is an example of the **PetResolver**.
+Here is an example of the **playlistResolver**.
 
 ```typescript
 import DataLoader from 'dataloader';
 import { DLoader } from '../../decorators/DLoader';
     ...
     constructor(
-        private petService: PetService,
+        private playlistService: playlistService,
         @Logger(__filename) private log: LoggerInterface,
         @DLoader(UserModel) private userLoader: DataLoader<string, UserModel>
     ) { }
@@ -436,11 +436,11 @@ Or you could use the repository too.
 Or even use a custom method of your given repository.
 
 ```typescript
-@DLoader(PetRepository, {
+@DLoader(playlistRepository, {
     method: 'findByUserIds',
     key: 'userId',
     multiple: true,
-}) private petLoader: DataLoader<string, PetModel>
+}) private playlistLoader: DataLoader<string, playlistModel>
 ```
 
 ## ❯ Docker

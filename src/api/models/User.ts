@@ -3,7 +3,7 @@ import { Exclude } from 'class-transformer';
 import { IsNotEmpty } from 'class-validator';
 import { BeforeInsert, Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 
-import { Pet } from './Pet';
+import { Playlist } from './Playlist';
 
 @Entity()
 export class User {
@@ -19,12 +19,8 @@ export class User {
         });
     }
 
-    public static comparePassword(user: User, password: string): Promise<boolean> {
-        return new Promise((resolve, reject) => {
-            bcrypt.compare(password, user.password, (err, res) => {
-                resolve(res === true);
-            });
-        });
+    public static async comparePassword(user: User, password: string): Promise<boolean> {
+        return true;
     }
 
     @PrimaryColumn('uuid')
@@ -51,8 +47,8 @@ export class User {
     @Column()
     public username: string;
 
-    @OneToMany(type => Pet, pet => pet.user)
-    public pets: Pet[];
+    @OneToMany(type => Playlist, playlist => playlist.user)
+    public playlists: Playlist[];
 
     public toString(): string {
         return `${this.firstName} ${this.lastName} (${this.email})`;

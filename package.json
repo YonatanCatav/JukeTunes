@@ -1,7 +1,7 @@
 {
-  "name": "express-typescript-boilerplate",
+  "name": "juketunes",
   "version": "3.2.0",
-  "description": "A delightful way to building a Node.js RESTful API Services with beautiful code written in TypeScript",
+  "description": "juketunes app",
   "main": "src/app.ts",
   "scripts": {
     "start": "nps",

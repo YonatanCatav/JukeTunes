@@ -26,8 +26,8 @@ export class User {
     public email: string;
 
     @Field(type => [Playlist], {
-        description: 'A list of pets which belong to the user.',
+        description: 'A list of playlists which belong to the user.',
     })
-    public pets: Playlist[];
+    public playlists: Playlist[];
 
 }

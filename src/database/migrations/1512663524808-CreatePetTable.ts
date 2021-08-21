@@ -1,10 +1,10 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreatePetTable1512663524808 implements MigrationInterface {
+export class CreateplaylistTable1512663524808 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<any> {
         const table = new Table({
-            name: 'pet',
+            name: 'playlist',
             columns: [
                 {
                     name: 'id',
@@ -36,7 +36,7 @@ export class CreatePetTable1512663524808 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<any> {
-        await queryRunner.dropTable('pet');
+        await queryRunner.dropTable('playlist');
     }
 
 }

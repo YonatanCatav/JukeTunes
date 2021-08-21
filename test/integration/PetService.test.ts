@@ -1,12 +1,12 @@
 import { Container } from 'typedi';
 import { Connection } from 'typeorm';
 
-import { Pet } from '../../src/api/models/Pet';
-import { PetService } from '../../src/api/services/PetService';
+import { Playlist } from '../../src/api/models/Playlist';
+import { PlaylistService } from '../../src/api/services/PlaylistService';
 import { closeDatabase, createDatabaseConnection, migrateDatabase } from '../utils/database';
 import { configureLogger } from '../utils/logger';
 
-describe('PetService', () => {
+describe('playlistService', () => {
 
     // -------------------------------------------------------------------------
     // Setup up
@@ -29,22 +29,19 @@ describe('PetService', () => {
     // Test cases
     // -------------------------------------------------------------------------
 
-    test('should create a new pet in the database', async (done) => {
-        const pet = new Pet();
-        pet.id = 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx';
-        pet.name = 'test';
-        pet.age = 1;
-        const service = Container.get<PetService>(PetService);
-        const resultCreate = await service.create(pet);
-        expect(resultCreate.name).toBe(pet.name);
-        expect(resultCreate.age).toBe(pet.age);
+    test('should create a new playlist in the database', async (done) => {
+        const playlist = new Playlist();
+        playlist.id = 'xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx';
+        playlist.name = 'test';
+        const service = Container.get<PlaylistService>(PlaylistService);
+        const resultCreate = await service.create(playlist);
+        expect(resultCreate.name).toBe(playlist.name);
 
         const resultFind = await service.findOne(resultCreate.id);
         if (resultFind) {
-            expect(resultFind.name).toBe(pet.name);
-            expect(resultFind.age).toBe(pet.age);
+            expect(resultFind.name).toBe(playlist.name);
         } else {
-            fail('Could not find pet');
+            fail('Could not find playlist');
         }
         done();
     });
