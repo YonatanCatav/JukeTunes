@@ -1,9 +1,9 @@
 import { Field, InputType, Int } from 'type-graphql';
 
-import { Pet } from '../Pet';
+import { Playlist } from '../Playlist';
 
 @InputType()
-export class PetInput implements Partial<Pet> {
+export class PetInput implements Partial<Playlist> {
 
     @Field()
     public name: string;

@@ -9,10 +9,10 @@ import { Pet as PetModel } from '../models/Pet';
 import { User as UserModel } from '../models/User';
 import { PetService } from '../services/PetService';
 import { PetInput } from '../types/input/PetInput';
-import { Pet } from '../types/Pet';
+import { Playlist } from '../types/Playlist';
 
 @Service()
-@Resolver(of => Pet)
+@Resolver(of => Playlist)
 export class PetResolver {
 
     constructor(
@@ -21,13 +21,13 @@ export class PetResolver {
         @DLoader(UserModel) private userLoader: DataLoader<string, UserModel>
     ) { }
 
-    @Query(returns => [Pet])
+    @Query(returns => [Playlist])
     public pets(@Ctx() { requestId }: Context): Promise<PetModel[]> {
         this.log.info(`{${requestId}} Find all users`);
         return this.petService.find();
     }
 
-    @Mutation(returns => Pet)
+    @Mutation(returns => Playlist)
     public async addPet(@Arg('pet') pet: PetInput): Promise<PetModel> {
         const newPet = new PetModel();
         newPet.name = pet.name;
