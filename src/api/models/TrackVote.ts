@@ -1,18 +1,16 @@
 import { IsNotEmpty } from 'class-validator';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, Unique } from 'typeorm';
+import { Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 
 import { Playlist } from './Playlist';
 import { Track } from './Track';
 import { User } from './User';
 
-const uniqueConstraintName = 'idx_track_vote_unique';
 const trackIdFieldName = 'track_id';
 const playlistFieldName = 'playlist_id';
 const userFieldName = 'user_id';
 
-@Unique(uniqueConstraintName, [trackIdFieldName, playlistFieldName, userFieldName])
 @Entity()
-export class TrackVotes {
+export class TrackVote {
 
     @ManyToOne(type => Track, track => track.id)
     @IsNotEmpty()
@@ -34,13 +32,19 @@ export class TrackVotes {
     })
     public track_id: string;
 
-    @Column({
+    @PrimaryColumn({
         name: playlistFieldName,
     })
     public playlist_id: string;
 
-    @Column({
+    @PrimaryColumn({
         name: userFieldName,
     })
     public user_id: string;
+
+    constructor(track: string, playlist: string, user: string) {
+        this.playlist_id = playlist;
+        this.track_id = track;
+        this.user_id = user;
+    }
 }

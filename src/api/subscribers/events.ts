@@ -10,4 +10,8 @@ export const events = {
     playlist: {
         created: 'onPlaylistCreate',
     },
+    track: {
+        created: 'onTrackCreate',
+        voted: 'onTrackVote',
+    },
 };

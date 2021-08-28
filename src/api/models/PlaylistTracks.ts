@@ -1,14 +1,12 @@
 import { IsNotEmpty } from 'class-validator';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, Unique } from 'typeorm';
+import { Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 
 import { Playlist } from './Playlist';
 import { Track } from './Track';
 
-const uniqueConstraintName = 'idx_playlist_track_unique';
 const trackIdFieldName = 'track_id';
 const playlistFieldName = 'playlist_id';
 
-@Unique(uniqueConstraintName, [trackIdFieldName, playlistFieldName])
 @Entity()
 export class PlaylistTracks {
 
@@ -27,7 +25,7 @@ export class PlaylistTracks {
     })
     public track_id: string;
 
-    @Column({
+    @PrimaryColumn({
         name: playlistFieldName,
     })
     public playlist_id: string;

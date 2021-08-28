@@ -6,15 +6,13 @@ import { Playlist } from './Playlist';
 @Entity()
 export class Track {
 
-    @PrimaryColumn('uuid')
+    @IsNotEmpty()
+    @PrimaryColumn()
     public id: string;
 
     @IsNotEmpty()
     @Column()
     public name: string;
-
-    @Column()
-    public externalId: string;
 
     @Column({nullable: true})
     public description: string;

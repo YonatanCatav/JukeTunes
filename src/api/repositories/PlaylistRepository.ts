@@ -11,7 +11,7 @@ export class PlaylistRepository extends Repository<Playlist> {
     public findByUserIds(ids: string[]): Promise<Playlist[]> {
         return this.createQueryBuilder()
             .select()
-            .where(`playlist.user_id IN (${ids.map(id => `'${id}'`).join(', ')})`)
+            .where(`playlist.user_id IN  (${ids.map(id => `'${id}'`).join(', ')})`)
             .getMany();
     }
 
