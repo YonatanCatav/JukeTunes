@@ -32,9 +32,11 @@ export class TrackController {
 
     @Get()
     @ResponseSchema(TrackResponse, { isArray: true })
-    public find(@Param('playlistId') playlistId: string): Promise<Track[]> {
-        console.log('the lal:', playlistId);
-        return this.trackService.findPlaylistTracks(playlistId);
+    public async find(@Param('playlistId') playlistId: string): Promise<Track[]> {
+        console.log('the lal3:', playlistId);
+        const dumb = await this.trackService.findPlaylistTracks(playlistId);
+        console.log('DUMB', dumb);
+        return dumb;
     }
 
     // @Get('/:id')
@@ -51,7 +53,7 @@ export class TrackController {
                   @Body({ required: true }) body: BaseTrack): Promise<TrackVote> {
         // playlist.userId = body.userId;
         // get data from service in case    doesn't exist
-        console.log('the lal:', playlistId);
+        console.log('the lal2:', playlistId);
         const trackVote = new TrackVote(body.id, playlistId, req.user.id);
 
         console.log('the trackvote:', trackVote);

@@ -6,7 +6,7 @@ import { Logger, LoggerInterface } from '../../decorators/Logger';
 import { Track } from '../models/Track';
 import { TrackVote } from '../models/TrackVote';
 import { TrackRepository } from '../repositories/TrackRepository';
-import { TrackVotesRepository } from '../repositories/TrackVotesRepository';
+import { TrackVoteRepository } from '../repositories/TrackVoteRepository';
 import { events } from '../subscribers/events';
 
 @Service()
@@ -14,7 +14,7 @@ export class TrackService {
 
     constructor(
         @OrmRepository() private trackRepository: TrackRepository,
-        @OrmRepository() private trackVotesRepository: TrackVotesRepository,
+        @OrmRepository() private trackVotesRepository: TrackVoteRepository,
         @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
         @Logger(__filename) private log: LoggerInterface
     ) { }
@@ -45,16 +45,16 @@ export class TrackService {
             console.log('how3', 'why...');
             return trackVote;
         }
-        console.log('repo1', console.log(this.trackRepository));
-        console.log('repo2', console.log(this.trackVotesRepository));
+        console.log('repo1', this.trackRepository);
+        console.log('repo2', this.trackVotesRepository);
         console.log("I'll save it1!");
 
-        this.trackVotesRepository.create(trackVote);
+        await this.trackVotesRepository.save(trackVote);
         console.log("I'll save it2!");
 
         try {
-            console.log("I'll save it3!");
-         await this.trackVotesRepository.create(trackVote);
+            console.log("I'll save it3!", trackVote);
+         await this.trackVotesRepository.save(trackVote);
         } catch (err) {
             console.error('screwed!', err);
             this.log.error('suspicious error due to race condition in adding a vote (if it falls on constraints it\'s fine)', err);
@@ -64,10 +64,10 @@ export class TrackService {
     }
 
     public findPlaylistTracks(playlistId: string): Promise<Track[]> {
-        this.log.info('Find all tracks of playlist', playlistId);
+        this.log.info(`Find all tracks of playlist4 ${playlistId}`, playlistId);
         return this.trackRepository.find({
             where: {
-                playlist_id: playlistId,
+                playlistId,
             },
         });
     }
