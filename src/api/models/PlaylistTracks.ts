@@ -1,5 +1,5 @@
 import { IsNotEmpty } from 'class-validator';
-import { Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 
 import { Playlist } from './Playlist';
 import { Track } from './Track';
@@ -24,6 +24,11 @@ export class PlaylistTracks {
         name: trackIdFieldName,
     })
     public track_id: string;
+
+    @IsNotEmpty()
+    @Column({default: true})
+    // tslint:disable-next-line:no-inferrable-types
+    public is_played: boolean = false;
 
     @PrimaryColumn({
         name: playlistFieldName,

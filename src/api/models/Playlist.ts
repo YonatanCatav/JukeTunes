@@ -22,6 +22,24 @@ export class Playlist {
     })
     public userId: string;
 
+    @Column({
+        name: 'is_playing',
+        default: true,
+    })
+    // tslint:disable-next-line:no-inferrable-types
+    public isPlaying: boolean;
+
+    @Column({
+        nullable: true,
+        name: 'play_start_time',
+    })
+    public playStartTime: Date;
+
+    @Column({
+        name: 'last_song_start_time',
+    })
+    public lastSongStartTime: Date;
+
     @ManyToOne(type => User, user => user.playlists)
     @JoinColumn({ name: 'user_id' })
     public user: User;

@@ -51,13 +51,8 @@ export class TrackController {
     public create(@Param('playlistId') playlistId: string,
                   @Req() req: RequestContext,
                   @Body({ required: true }) body: BaseTrack): Promise<TrackVote> {
-        // playlist.userId = body.userId;
-        // get data from service in case    doesn't exist
-        console.log('the lal2:', playlistId);
+    // TODO: validation that the trackID exists
         const trackVote = new TrackVote(body.id, playlistId, req.user.id);
-
-        console.log('the trackvote:', trackVote);
-
         return this.trackService.create(trackVote);
     }
 

@@ -1,7 +1,5 @@
 import { IsNotEmpty } from 'class-validator';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
-
-import { Playlist } from './Playlist';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class Track {
@@ -20,15 +18,8 @@ export class Track {
     @Column()
     public author: string;
 
-    @Column({
-        name: 'playlist_id',
-        nullable: true,
-    })
-    public playlistId: string;
-
-    @ManyToOne(type => Playlist, playlist => playlist.id)
-    @JoinColumn({ name: 'playlist_id' })
-    public playlist: Playlist;
+    @Column()
+    public durationMs: number;
 
     public toString(): string {
         return `${this.name}`;

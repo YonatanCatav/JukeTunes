@@ -36,24 +36,12 @@ export class TrackService {
     }
 
     public async upVote(trackVote: TrackVote): Promise<TrackVote> {
-        this.log.info('UpVoteTrack => ', trackVote);
-        const how = await this.trackVotesRepository.findOne(trackVote);
-        console.log('how', how);
-        console.log('how2', how === undefined);
         // Get from service data
         if ((await this.trackVotesRepository.findOne(trackVote))) {
-            console.log('how3', 'why...');
             return trackVote;
         }
-        console.log('repo1', this.trackRepository);
-        console.log('repo2', this.trackVotesRepository);
-        console.log("I'll save it1!");
-
-        await this.trackVotesRepository.save(trackVote);
-        console.log("I'll save it2!");
 
         try {
-            console.log("I'll save it3!", trackVote);
          await this.trackVotesRepository.save(trackVote);
         } catch (err) {
             console.error('screwed!', err);
@@ -65,10 +53,8 @@ export class TrackService {
 
     public findPlaylistTracks(playlistId: string): Promise<Track[]> {
         this.log.info(`Find all tracks of playlist4 ${playlistId}`, playlistId);
-        return this.trackRepository.find({
-            where: {
-                playlistId,
-            },
-        });
+        // tslint:disable-next-line:no-null-keyword
+        return null;
+        // return await this.trackRepository.createQueryBuilder("playlist_tracks").groupBy("track_id").addOrderBy
     }
 }
