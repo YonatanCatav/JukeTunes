@@ -123,6 +123,7 @@ Go to the project dir and start your app with this yarn script.
 yarn start serve
 ```
 
+
 > This starts a local server using `nodemon`, which will watch for any file changes and will restart the server according to these changes.
 > The server address will be displayed to you as `http://0.0.0.0:3000`.
 

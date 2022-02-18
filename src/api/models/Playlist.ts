@@ -36,6 +36,7 @@ export class Playlist {
     public playStartTime: Date;
 
     @Column({
+        nullable: true,
         name: 'last_song_start_time',
     })
     public lastSongStartTime: Date;

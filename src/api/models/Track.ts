@@ -18,7 +18,7 @@ export class Track {
     @Column()
     public author: string;
 
-    @Column()
+    @Column({nullable: true})
     public durationMs: number;
 
     public toString(): string {

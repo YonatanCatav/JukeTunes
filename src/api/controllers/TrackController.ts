@@ -1,9 +1,14 @@
 import { IsNotEmpty, ValidateNested } from 'class-validator';
-import { Authorized, Body, Get, JsonController, Param, Post, Req } from 'routing-controllers';
+import {
+    Authorized, Body, Get, JsonController, OnUndefined, Param, Post, Req
+} from 'routing-controllers';
 import { OpenAPI, ResponseSchema } from 'routing-controllers-openapi';
-
+import uuid from 'uuid';
+import { PlaylistNotFoundError } from '../errors/PlaylistNotFoundError';
+import { PlaylistOrTrackNotFound } from '../errors/PlaylistNotFoundError copy';
 import { Track } from '../models/Track';
 import { TrackVote } from '../models/TrackVote';
+import { PlaylistService } from '../services/PlaylistService';
 import { TrackService } from '../services/TrackService';
 import { RequestContext } from './requests/RequestContext';
 import { UserResponse } from './UserController';
@@ -27,16 +32,17 @@ export class TrackResponse extends BaseTrack {
 export class TrackController {
 
     constructor(
-        private trackService: TrackService
+        private trackService: TrackService,
+        private playlistService: PlaylistService
+
     ) { }
 
     @Get()
+    @OnUndefined(PlaylistNotFoundError)
     @ResponseSchema(TrackResponse, { isArray: true })
     public async find(@Param('playlistId') playlistId: string): Promise<Track[]> {
-        console.log('the lal3:', playlistId);
-        const dumb = await this.trackService.findPlaylistTracks(playlistId);
-        console.log('DUMB', dumb);
-        return dumb;
+        const results = await this.trackService.findPlaylistTracks(playlistId);
+        return results;
     }
 
     // @Get('/:id')
@@ -47,10 +53,14 @@ export class TrackController {
     // }
 
     @Post()
+    @OnUndefined(PlaylistOrTrackNotFound)
     @ResponseSchema(TrackResponse)
     public create(@Param('playlistId') playlistId: string,
                   @Req() req: RequestContext,
                   @Body({ required: true }) body: BaseTrack): Promise<TrackVote> {
+                    if (!this.playlistService.findOne(playlistId)) {
+                        return undefined;
+                    }
     // TODO: validation that the trackID exists
         const trackVote = new TrackVote(body.id, playlistId, req.user.id);
         return this.trackService.create(trackVote);

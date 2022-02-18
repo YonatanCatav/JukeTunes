@@ -23,7 +23,11 @@ import { winstonLoader } from './loaders/winstonLoader';
  * The basic layer of this app is express. For further information visit
  * the 'README.md' file.
  */
+// tslint:disable-next-line:no-console
+console.info('!');
 const log = new Logger(__filename);
+// tslint:disable-next-line:no-console
+console.info('2');
 bootstrapMicroframework({
     /**
      * Loader is a place where you can configure all your modules during microframework
@@ -42,5 +46,10 @@ bootstrapMicroframework({
         graphqlLoader,
     ],
 })
-    .then(() => banner(log))
+    .then(() => {
+        log.info('A');
+    banner(log);
+})
     .catch(error => log.error('Application is crashed: ' + error));
+    // tslint:disable-next-line:no-console
+    console.info('3');
